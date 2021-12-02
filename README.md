@@ -41,3 +41,56 @@ triplets.windows(2).fold(0, |total, window| {
   // ...
 })
 ```
+
+### Day 2
+
+I created an enum type to handle the different commands. This implements the trait `std::convert::From` to parse a string into a command. Overengineering? Yes, but… 🤷🏻‍♀️
+
+```rust
+pub enum Command {
+  Forward(i64),
+  Up(i64),
+  Down(i64),
+}
+
+impl From<&str> for Command {
+  fn from(raw: &str) -> Self {
+    // ...
+  }
+}
+```
+
+For **part 1**, running the commands is as simple as do a `match` over that enum:
+
+```rust
+fn exec(&mut self, cmd: &Command) {
+  match cmd {
+    Command::Forward(delta) => self.x += delta,
+    Command::Up(delta) => self.y -= delta,
+    Command::Down(delta) => self.y += delta,
+  }
+}
+```
+
+For **part 2**, a new logic for handling the commands is introduced, plus a new variable into the state of the submarine (`aim`). So I decided to play with Rust traits a bit and have two different types for the different "submarines", each one implementing a trait that provides the `exec` method:
+
+```rust
+pub trait Submarine {
+  fn exec(&mut self, cmd: &Command);
+  fn run(&mut self, input: &[Command]) {
+    // ...
+  }
+}
+
+pub struct SubmarineV2 {
+  x: i64,
+  y: i64,
+  aim: i64,
+}
+
+impl Submarine for SubmarineV2 {
+  fn exec(&mut self, cmd: &Command) {
+    // ...
+  }
+}
+```
