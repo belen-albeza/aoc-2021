@@ -94,3 +94,22 @@ impl Submarine for SubmarineV2 {
   }
 }
 ```
+### Day 3
+
+Today's puzzle was a good opportunity to refresh bit shifts and masking in Rust.
+
+For **part 1**, the key of my solution is this loop:
+
+```rust
+for i in 0..n_bits {
+  let mask = 2_u32.pow(i);
+  let ones = report.iter().filter(|x| *x & mask == mask).count();
+  if ones > report.len() / 2 {
+      gamma_rate += mask
+  }
+}
+```
+
+Let's say we want to get the value of the second bit (counting from the left) for a number, for instance `01110`. We would need to build a mask that is `01000` so when we do and `AND` operation with those two we can get whichever value was at the position of the masking bit.
+
+For **part 2**, we use the same masking idea and keep filtering down the numbers until we have only one left.
