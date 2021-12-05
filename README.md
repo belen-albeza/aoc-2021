@@ -142,3 +142,11 @@ let row = i / CARD_SIZE;
 In **part 1**, we just need to get the first card which has a bingo. I implemented a method that can check for bingo for given range and step. For checking a row the step is `1`, since we are just looking at consecutive elements in the array. For checking a column, the step is `5`.
 
 In **part 2** the only different thing is to get the _last_ card that scores a bingo. Since apparently there's no convenient method in Rust to remove multiple indices from a `Vec` at once, I just opted to add winner cards to an ignore list, so they are not re-checked for bingo.
+
+### Day 5
+
+Instead of virtually "drawing" or populating a grid with the points in question, I kept a list of segments and implemented a `points()` method in them that would return all the points in the grid the segment would fill.
+
+This would be super easy in any language, but I found out the hard way that Rust ranges _do not support a negative step_.
+
+My code is kind of convoluted and very verbose. I'm not exactly happy with my solution to this problem, but at least it worked.
