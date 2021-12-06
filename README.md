@@ -150,3 +150,60 @@ Instead of virtually "drawing" or populating a grid with the points in question,
 This would be super easy in any language, but I found out the hard way that Rust ranges _do not support a negative step_.
 
 My code is kind of convoluted and very verbose. I'm not exactly happy with my solution to this problem, but at least it worked.
+
+### Day 6
+
+**Part 1** was simple, I just had an array for all the laternfish, and pushed to it when it was time for one to reproduce.
+
+```rust
+fn simulation(input: &[u64], n: u64) -> u64 {
+  let mut population = input.to_vec();
+  for _ in 0..n {
+    population = tick(&population);
+  }
+
+  population.len() as u64
+}
+
+fn tick(fishes: &[u64]) -> Vec<u64> {
+  let mut population = vec![];
+
+  for fish in fishes.iter() {
+    if *fish == 0 {
+      population.push(6); // reset counter
+      population.push(8); // new born fish
+    }
+    else {
+      population.push(fish - 1) // decrease counter
+    }
+  }
+
+  population
+}
+```
+
+However, with **part 2**, which was exactly the same problem but with more timespan for the lanternfish population, it required optimization.
+
+I decided to opt for a classic [dynamic programming](https://en.wikipedia.org/wiki/Dynamic_programming) technique, in which I could split the result into partials that could in turn be memoized. To get that split, instead of processing every tick the whole population of laternfish, I had to do the reverse: processing each fish for the whole timespan.
+
+```rust
+fn simulation(input: &[u64], n: u64) -> u64 {
+  // ...
+  for fish in input.to_vec().into_iter() {
+    population_count += simulate_fish(fish as i64, n as i64, &mut cache);
+  }
+  // ...
+}
+```
+
+Then, to simulate fish I just needed to calculate when it would reproduce and how much timespan would be available to its children. This `simulate_fish` function is provided a "cache" in the form of a `HashMap` to store its partial results.
+
+```rust
+fn simulate_fish(fish: i64, n: i64, cache: &mut HashMap<(i64, i64), u64>) -> u64 {
+  // ...
+  for i in (fish..n+fish).step_by(7) {
+    fish_count += simulate_fish(8, n-i-1, cache);
+  }
+  // ...
+}
+```
