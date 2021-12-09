@@ -207,3 +207,38 @@ fn simulate_fish(fish: i64, n: i64, cache: &mut HashMap<(i64, i64), u64>) -> u64
   // ...
 }
 ```
+
+### Day 7
+
+TODO
+
+### Day 8
+
+I found the wording of the puzzle quite confusing for today. At any case, I solved **part 1** in a breeze. I just filtered the target lengths and reduced into a sum:
+
+```rust
+let targets = [2, 4, 3, 7];
+input
+  .into_iter()
+  .map(|(_, output)| output.clone())
+  .flatten()
+  .fold(0, |total, x| {
+    total + if targets.contains(&x.len()) { 1 } else { 0 }
+  })
+```
+
+I didn't find **part 2** particularly difficult, _but_. So verbose 😭. Here I struggled with casting types all the time.
+
+The key part was the bahamut of a function that I did to create a dictionary of a mangled digit string to its numeric value.
+
+I hardcoded all the logical rules:
+
+1. Identify straight away `1`, `4`, `7` and `8` because of their unique length.
+2. Find out to which mangled character corresponds which segment of the display.
+3. Identify straight away segments `b`, `e` and `f` because of their unique frequency in all the digits.
+4. Segment `c` is the one in `1` that is not `f` (which we already know).
+5. Segment `d` is the one in `4` that is not `b`, `c`, or `f`.
+6. ...
+7. Identify the remaining unknown digits by checking against the known segments.
+
+Then, after that, it was only a matter of converting a list of digits into an actual integer we could sum to provide the result.
