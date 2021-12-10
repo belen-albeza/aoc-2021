@@ -242,3 +242,11 @@ I hardcoded all the logical rules:
 7. Identify the remaining unknown digits by checking against the known segments.
 
 Then, after that, it was only a matter of converting a list of digits into an actual integer we could sum to provide the result.
+
+### Day 9
+
+This one was fun! Since this is the second time that I need some sort of grid or level map or sorts, I decided to create a generic `Grid<T>` to handle this puzzle and any of upcoming ones. It took a little bit of time, but I think it will be worth it in the next days.
+
+**Part 1** can be solved by traversing the grid, and checking the 4-neighbors of every cell to see if it's a low point or not (`Grid<T>::cell_at(i32, i32)` conveniently returns `None` if the coordinates given overflow the map).
+
+For **part 2** I implemented a recursive algorithm similar to the typical paint bucket fill in drawing software. For convenience, I created a parallel `Grid<bool>` map to mark whether a position was already part of the basin or not (so it doesn't get added twice).
