@@ -48,7 +48,7 @@ impl<'a, T: Clone> Grid<T> {
             .collect()
     }
 
-    pub fn neighbors9_at(&self, x: i32, y: i32) -> Vec<(T, (usize, usize))> {
+    pub fn neighbors8_at(&self, x: i32, y: i32) -> Vec<(T, (usize, usize))> {
         [
             (x, y - 1),
             (x + 1, y - 1),

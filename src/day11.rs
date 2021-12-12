@@ -54,7 +54,7 @@ impl OctopusSim {
     }
 
     fn flash_at(&mut self, x: usize, y: usize, flashed: &[(usize, usize)]) {
-        let neighbors = self.map.neighbors9_at(x as i32, y as i32);
+        let neighbors = self.map.neighbors8_at(x as i32, y as i32);
 
         for (octopus, point) in neighbors
             .iter()

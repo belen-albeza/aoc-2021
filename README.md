@@ -250,3 +250,21 @@ This one was fun! Since this is the second time that I need some sort of grid or
 **Part 1** can be solved by traversing the grid, and checking the 4-neighbors of every cell to see if it's a low point or not (`Grid<T>::cell_at(i32, i32)` conveniently returns `None` if the coordinates given overflow the map).
 
 For **part 2** I implemented a recursive algorithm similar to the typical paint bucket fill in drawing software. For convenience, I created a parallel `Grid<bool>` map to mark whether a position was already part of the basin or not (so it doesn't get added twice).
+
+### Day 10
+
+I love parsers, so I found this problem quite fun. The grammar we needed to parse was quite small, and it could just be solved by keeping a buffer of the expected closing parens/braces/whatever. We push into the buffer when we encounter an opening character (like `(` or `[`), and we pop from it when we encounter a closing character (like `)` and `]`). If the current character doesn't match the popped value, we return a syntax error.
+
+The only significant change for **part 2** was that on `Ok` we return the state of the buffer for incomplete lines, so we know which characters we'd need to autocomplete.
+
+### Day 11
+
+This puzzle reminded me of some kind of Game of Life logic. Both **part 1** and **part 2** were similar and I didn't have to tweak it a lot.
+
+I reused the `Grid<T>` class I did on Day 9, and added a method to get all the adjacent neighbors including diagonals.
+
+### Day 12
+
+Today's puzzle was about pathfinding. I opted to represent the map as a graph in the form of a `HashMap`, with the name of the nodes as the key, and a list of their connections as value.
+
+I solved **part 1** with a recursive Dijkstra algorithm with some tweaks to be able to allow navigation through some nodes more than twice. **Part 2** required further tweaks, put the principle stayed the same.
