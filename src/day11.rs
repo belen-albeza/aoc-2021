@@ -1,5 +1,4 @@
 use aoc_runner_derive::aoc;
-use aoc_runner_derive::aoc_generator;
 
 use crate::utils::Grid;
 
@@ -31,7 +30,7 @@ impl OctopusSim {
 
     pub fn run(&mut self, steps: usize) -> u64 {
         let mut flashes = 0;
-        for i in 0..steps {
+        for _ in 0..steps {
             flashes += self.tick()
         }
         flashes
