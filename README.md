@@ -267,4 +267,14 @@ I reused the `Grid<T>` class I did on Day 9, and added a method to get all the a
 
 Today's puzzle was about pathfinding. I opted to represent the map as a graph in the form of a `HashMap`, with the name of the nodes as the key, and a list of their connections as value.
 
-I solved **part 1** with a recursive Dijkstra algorithm with some tweaks to be able to allow navigation through some nodes more than twice. **Part 2** required further tweaks, put the principle stayed the same.
+I solved **part 1** with a recursive Dijkstra algorithm with some tweaks to be able to allow navigation through some nodes more than once. **Part 2** required further tweaks, put the principle stayed the same.
+
+### Day 13
+
+One of those days in which parsing the input takes double the lines than the actual solution 🙃.
+
+Folding is made by removing the row or column folded, and then matching the top (or left) position with its corresponding bottom (or right one). Determining if there's a dot in the folded sheet just requires OR'ing the value at those positions.
+
+Like yesterday, I reused my `Grid<T>` class for this. </T>For simplicity's sake I opted to recreate a new grid from scratch in each fold, although just manually changing the sheet width and height would have been enough.
+
+For **part 2** I didn't have to modify my folding algorithm, but I did implement the `Display` trait for my data structure holding the sheet and the instructions, so I could see the solution printed as captcha-like ascii art.
