@@ -1,3 +1,5 @@
+use std::fmt;
+
 #[derive(Debug, PartialEq, Clone)]
 pub struct Grid<T> {
     pub cells: Vec<T>,
@@ -5,7 +7,7 @@ pub struct Grid<T> {
     height: usize,
 }
 
-impl<'a, T: Clone> Grid<T> {
+impl<T: Clone> Grid<T> {
     pub fn new(cells: &[T], width: usize) -> Self {
         let len = cells.len();
         let cells = cells.to_owned();
@@ -27,6 +29,11 @@ impl<'a, T: Clone> Grid<T> {
 
         let i = self.index_for(x as usize, y as usize);
         Some(self.cells[i as usize].clone())
+    }
+
+    pub fn full_cell(&self, x: usize, y: usize) -> (T, (usize, usize)) {
+        let i = self.index_for(x, y);
+        (self.cells[i].clone(), (x, y))
     }
 
     pub fn set_at(&mut self, x: usize, y: usize, value: T) {
@@ -69,6 +76,19 @@ impl<'a, T: Clone> Grid<T> {
 
     fn index_for(&self, x: usize, y: usize) -> usize {
         y * self.width + x
+    }
+}
+
+impl<T: Clone + fmt::Debug> fmt::Display for Grid<T> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let mut buffer = "".to_string();
+        for y in 0..self.size().1 {
+            for x in 0..self.size().0 {
+                buffer.push_str(&format!("{:?}", self.cell_at(x as i32, y as i32).unwrap()));
+            }
+            buffer.push('\n');
+        }
+        writeln!(f, "{}", buffer)
     }
 }
 

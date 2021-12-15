@@ -282,3 +282,9 @@ For **part 2** I didn't have to modify my folding algorithm, but I did implement
 ### Day 14
 
 TODO
+
+### Day 15
+
+Today it was a pathfinding puzzle, and I was told beforehand that it required optimization. In **part 1**, Instead of implementing Dijkstra, I opted to implement [A\*](https://www.redblobgames.com/pathfinding/a-star/introduction.html), with a binary heap as a priority queue as shown in [Rust documentation](https://doc.rust-lang.org/std/collections/binary_heap/). As the heuristic function, I opted for the usual Manhattan distance, since it's super quick and good enough for heuristics.
+
+For **Part 2** I didn't have to change the pathfinding algorithm, but tweak the input a little bit to construct the larger map. Again, my `Grid<T>` util type is really paying off. For debugging purposes, I implemented the `std::fmt::Display` trait so I could print it on screen.
