@@ -278,3 +278,7 @@ Folding is made by removing the row or column folded, and then matching the top 
 Like yesterday, I reused my `Grid<T>` class for this. </T>For simplicity's sake I opted to recreate a new grid from scratch in each fold, although just manually changing the sheet width and height would have been enough.
 
 For **part 2** I didn't have to modify my folding algorithm, but I did implement the `Display` trait for my data structure holding the sheet and the instructions, so I could see the solution printed as captcha-like ascii art.
+
+### Day 14
+
+TODO

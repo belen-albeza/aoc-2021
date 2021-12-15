@@ -12,8 +12,8 @@ pub fn parse_input(input: &str) -> (String, HashMap<String, String>) {
         .map(|raw| {
             let mut chunks = raw.split(" -> ");
             let key = chunks.next().unwrap().to_owned();
-            let value = chunks.next().unwrap().to_owned();
-            (key, value)
+            let new_char = chunks.next().unwrap().to_owned();
+            (key, new_char)
         })
         .collect();
 
@@ -79,9 +79,7 @@ mod tests {
         );
     }
 
-    #[test]
-    fn test_day14_solve_part1() {
-        let input = r#"NNCB
+    const INPUT: &str = r#"NNCB
 
 CH -> B
 HH -> N
@@ -99,6 +97,9 @@ BB -> N
 BC -> B
 CC -> N
 CN -> C"#;
-        assert_eq!(solve_part1(input), 1588);
+
+    #[test]
+    fn test_day14_solve_part1() {
+        assert_eq!(solve_part1(INPUT), 1588);
     }
 }
