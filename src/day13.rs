@@ -87,7 +87,7 @@ pub fn parse_input(input: &str) -> Manual {
         .unwrap()
         .lines()
         .map(|raw| {
-            let mut dot_split = raw.split(",");
+            let mut dot_split = raw.split(',');
             (
                 dot_split.next().unwrap().parse::<usize>().unwrap(),
                 dot_split.next().unwrap().parse::<usize>().unwrap(),
@@ -131,7 +131,7 @@ pub fn parse_input(input: &str) -> Manual {
 #[aoc(day13, part1)]
 pub fn solve_part1(manual: &Manual) -> u64 {
     let mut manual = manual.to_owned();
-    let fold = manual.instructions.iter().next().unwrap().clone();
+    let fold = *manual.instructions.get(0).unwrap();
 
     manual.fold(fold);
 
@@ -144,7 +144,7 @@ pub fn solve_part2(manual: &Manual) -> String {
     let instructions = manual.instructions.to_owned();
 
     for fold in instructions.into_iter() {
-        manual.fold(fold.clone());
+        manual.fold(fold);
     }
 
     format!("\n{}", manual) // line break for readability
@@ -162,7 +162,7 @@ mod tests {
             parse_input(input),
             Manual {
                 grid: Grid::<Tile>::new(
-                    &vec![false, true, false, true, false, false, false, true, true],
+                    &[false, true, false, true, false, false, false, true, true],
                     3
                 ),
                 instructions: vec![Fold::Up(1), Fold::Left(1)]
@@ -174,7 +174,7 @@ mod tests {
     fn test_fold_up() {
         let mut manual = Manual {
             grid: Grid::<Tile>::new(
-                &vec![false, true, false, true, false, false, false, true, true],
+                &[false, true, false, true, false, false, false, true, true],
                 3,
             ),
             instructions: vec![],
@@ -190,7 +190,7 @@ mod tests {
     fn test_fold_left() {
         let mut manual = Manual {
             grid: Grid::<Tile>::new(
-                &vec![false, true, false, true, false, false, false, true, true],
+                &[false, true, false, true, false, false, false, true, true],
                 3,
             ),
             instructions: vec![],

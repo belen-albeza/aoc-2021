@@ -84,16 +84,16 @@ pub fn solve_part2(input: &str) -> u64 {
         .map(|b| b.len())
         .collect();
 
-    basins.sort();
+    basins.sort_unstable();
 
-    basins[basins.len() - 3..].into_iter().product::<usize>() as u64
+    basins[basins.len() - 3..].iter().product::<usize>() as u64
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
 
-    const INPUT: &'static str = r#"2199943210
+    const INPUT: &str = r#"2199943210
 3987894921
 9856789892
 8767896789

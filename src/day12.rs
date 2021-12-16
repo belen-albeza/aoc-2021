@@ -25,23 +25,18 @@ impl CaveSystem {
             // entries per input edge
             edges
                 .entry(edge.0.to_owned())
-                .or_insert(vec![])
+                .or_insert_with(Vec::new)
                 .push(edge.1.to_owned());
             edges
                 .entry(edge.1.to_owned())
-                .or_insert(vec![])
+                .or_insert_with(Vec::new)
                 .push(edge.0.to_owned());
         }
 
         Self { edges }
     }
 
-    pub fn search_paths_v1(
-        &self,
-        start: &str,
-        end: &str,
-        partial: &Vec<String>,
-    ) -> Vec<Vec<String>> {
+    pub fn search_paths_v1(&self, start: &str, end: &str, partial: &[String]) -> Vec<Vec<String>> {
         // add current node into the partial route
         let new_partial: Vec<String> = vec![partial.to_owned(), vec![start.to_owned()]]
             .into_iter()
@@ -67,7 +62,7 @@ impl CaveSystem {
         &self,
         start: &str,
         end: &str,
-        partial: &Vec<String>,
+        partial: &[String],
         visited: &str,
     ) -> Vec<Vec<String>> {
         // add current node into the partial route
@@ -100,7 +95,7 @@ impl CaveSystem {
 
         let mut paths: Vec<Vec<String>> = candidates
             .map(|cave| {
-                if visited.len() == 0 && Self::cave_size_for(cave) == CaveSize::Small {
+                if visited.is_empty() && Self::cave_size_for(cave) == CaveSize::Small {
                     [
                         self.search_paths_v2(cave, end, &new_partial, cave),
                         self.search_paths_v2(cave, end, &new_partial, ""),
@@ -134,7 +129,7 @@ pub fn parse_input(input: &str) -> Vec<Edge> {
     input
         .lines()
         .map(|edge| {
-            let mut chunks = edge.split("-");
+            let mut chunks = edge.split('-');
             (
                 chunks.next().unwrap().to_string(),
                 chunks.next().unwrap().to_string(),
@@ -146,7 +141,7 @@ pub fn parse_input(input: &str) -> Vec<Edge> {
 #[aoc(day12, part1)]
 pub fn solve_part1(input: &[Edge]) -> u64 {
     let caves = CaveSystem::new(input);
-    let paths = caves.search_paths_v1("start", "end", &vec![]);
+    let paths = caves.search_paths_v1("start", "end", &[]);
 
     paths.len() as u64
 }
@@ -154,7 +149,7 @@ pub fn solve_part1(input: &[Edge]) -> u64 {
 #[aoc(day12, part2)]
 pub fn solve_part2(input: &[Edge]) -> u64 {
     let caves = CaveSystem::new(input);
-    let paths = caves.search_paths_v2("start", "end", &vec![], "");
+    let paths = caves.search_paths_v2("start", "end", &[], "");
 
     paths.len() as u64
 }
@@ -163,7 +158,7 @@ pub fn solve_part2(input: &[Edge]) -> u64 {
 mod tests {
     use super::*;
 
-    const INPUT: [&'static str; 3] = [
+    const INPUT: [&str; 3] = [
         "start-A\nstart-b\nA-c\nA-b\nb-d\nA-end\nb-end",
         "dc-end\nHN-start\nstart-kj\ndc-start\ndc-HN\nLN-dc\nHN-end\nkj-sa\nkj-HN\nkj-dc",
         "fs-end\nhe-DX\nfs-he\nstart-DX\npj-DX\nend-zg\nzg-sl\nzg-pj\npj-he\nRW-he\nfs-DX\npj-RW\nzg-RW\nstart-pj\nhe-WI\nzg-he\npj-fs\nstart-RW",

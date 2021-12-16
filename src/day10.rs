@@ -39,7 +39,7 @@ fn parse_line(input: &str) -> Result<Vec<char>, char> {
 #[aoc(day10, part1)]
 pub fn solve_part1(input: &[String]) -> u64 {
     input
-        .into_iter()
+        .iter()
         .map(|x| match parse_line(x) {
             Ok(_) => 0,
             Err(')') => 3,
@@ -53,16 +53,13 @@ pub fn solve_part1(input: &[String]) -> u64 {
 
 #[aoc(day10, part2)]
 pub fn solve_part2(input: &[String]) -> u64 {
-    let buffers: Vec<String> = input
-        .into_iter()
-        .filter_map(|x| {
-            let result = parse_line(x);
-            match result {
-                Ok(buffer) => Some(buffer.iter().rev().collect::<String>()),
-                _ => None,
-            }
-        })
-        .collect();
+    let buffers = input.iter().filter_map(|x| {
+        let result = parse_line(x);
+        match result {
+            Ok(buffer) => Some(buffer.iter().rev().collect::<String>()),
+            _ => None,
+        }
+    });
 
     let mut scores: Vec<u64> = buffers
         .into_iter()
@@ -79,8 +76,8 @@ pub fn solve_part2(input: &[String]) -> u64 {
         })
         .collect();
 
-    scores.sort();
-    scores.get(scores.len() / 2).unwrap().clone()
+    scores.sort_unstable();
+    *scores.get(scores.len() / 2).unwrap()
 }
 
 #[cfg(test)]

@@ -13,7 +13,7 @@ fn parse_input(input: &str) -> Grid<Octopus> {
                 .collect()
         })
         .collect();
-    let width = octopuses.iter().next().unwrap().len();
+    let width = octopuses.get(0).unwrap().len();
     let cells: Vec<Octopus> = octopuses.into_iter().flatten().collect();
     Grid::new(&cells, width)
 }
@@ -87,7 +87,7 @@ impl OctopusSim {
         if flashes.contains(&(x, y)) {
             false
         } else {
-            self.flash_at(x, y, &flashes);
+            self.flash_at(x, y, flashes);
             flashes.push((x, y));
             true
         }

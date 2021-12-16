@@ -33,7 +33,7 @@ pub fn parse_input(input: &str) -> Vec<SegmentsDisplay> {
 pub fn solve_part1(input: &[SegmentsDisplay]) -> u64 {
     let targets = [2, 4, 3, 7];
     input
-        .into_iter()
+        .iter()
         .map(|(_, output)| output.clone())
         .flatten()
         .fold(0, |total, x| {
@@ -133,7 +133,7 @@ fn output_value(display: &SegmentsDisplay) -> u64 {
     let mapping = decode_signals(signals);
 
     output
-        .into_iter()
+        .iter()
         .map(|chunk| chunk.chars().sorted().collect::<String>())
         .map(|chunk| mapping[&chunk])
         .join("")
@@ -214,7 +214,7 @@ gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce
         let input =
             "acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf";
         let display = parse_input(input).clone();
-        assert_eq!(output_value(&display.first().unwrap()), 5353);
+        assert_eq!(output_value(display.first().unwrap()), 5353);
     }
 
     #[test]

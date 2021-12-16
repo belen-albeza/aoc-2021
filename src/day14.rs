@@ -24,7 +24,7 @@ fn polymerize(polymer: &str, rules: &HashMap<String, String>, steps: usize) -> S
     let mut polymer = polymer.to_string();
 
     for _ in 0..steps {
-        let mut buffer = polymer.chars().nth(0).unwrap().to_string();
+        let mut buffer = polymer.chars().next().unwrap().to_string();
 
         for window in polymer.as_bytes().windows(2) {
             let pair = String::from_utf8(window.to_vec()).unwrap();
